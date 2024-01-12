@@ -12,7 +12,7 @@ namespace Grupp_upgift_Grupp4.Repository.Repo
         {
             _context = context;
         }
-
+        //teastad
         public List<User> GetAllUser()
         {
             try
