@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 # Exclude launch settings file
 launch.settings.json
+/Grupp upgift Grupp4/appsettings.json
