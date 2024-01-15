@@ -6,7 +6,7 @@ using System.Data.Common;
 
 namespace Grupp_upgift_Grupp4.Repository.Repo
 {
-    public class UserRepo :IUserRepo
+    public class UserRepo : IUserRepo
     {
         private readonly IDBContext _context;
 
@@ -113,5 +113,29 @@ namespace Grupp_upgift_Grupp4.Repository.Repo
 
             }
         }
+
+        public string AddAuctionItem(string username,Auctions auctions)
+        {
+            using (IDbConnection db = _context.GetConnection())
+            {
+
+                var parameters = new DynamicParameters();
+
+                parameters.Add("@AuctionTitle", auctions.AuctionTitle);
+                parameters.Add("@AuctionDescription", auctions.AuctionDescription);
+                parameters.Add("@StartBid", auctions.Startbid);
+                parameters.Add("@StartTid", auctions.StartTid);
+                parameters.Add("@SlutTid", auctions.SlutTid);
+                parameters.Add("@ResultCode", dbType: DbType.String, direction: ParameterDirection.Output, size: 500);
+
+                db.Execute("AddAuctionItem", parameters, commandType: CommandType.StoredProcedure);
+
+                return parameters.Get<string>("@ResultCode");
+            }
+        }
+
+
+
+
     }
 }
