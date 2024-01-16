@@ -3,14 +3,11 @@ using Grupp_upgift_Grupp4.Models.Entities;
 using Grupp_upgift_Grupp4.Repository.Interface;
 using System.Data;
 using System.Security.Claims;
-using Grupp_upgift_Grupp4.Models.Entities;
-using Grupp_upgift_Grupp4.Repository.Interface;
 using Grupp_upgift_Grupp4.Repository.Repo;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.Entity.ModelConfiguration.Configuration;
-using System.Security.Claims;
-using static Dapper.SqlMapper;
+
 
 
 namespace Grupp_upgift_Grupp4.Repository.Repo
@@ -18,17 +15,14 @@ namespace Grupp_upgift_Grupp4.Repository.Repo
     public class AuctionRepo : IAuctionRepo
     {
 
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IAuctionRepo _auctionRepo;
-        private readonly IUserRepo _userRepo;
         private readonly IDBContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        
 
-        public AuctionRepo(IAuctionRepo auctionRepo, IHttpContextAccessor httpContextAccessor, IUserRepo userRepo, IDBContext context)
+        public AuctionRepo(IDBContext context, IHttpContextAccessor httpContextAccessor)
         {
-            _auctionRepo = auctionRepo;
-            _httpContextAccessor = httpContextAccessor;
-            _userRepo = userRepo;
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
         }
         public List<Auctions> GetAuctions()
         {
@@ -48,8 +42,6 @@ namespace Grupp_upgift_Grupp4.Repository.Repo
         public void Insert(Auctions auctions)
         {
 
-            var username = identity.Claims.Where(c => c.Type == ClaimTypes.Name)
-                   .Select(c => c.Value).SingleOrDefault();
             try
             {
                 using (IDbConnection db = _context.GetConnection())
@@ -61,7 +53,7 @@ namespace Grupp_upgift_Grupp4.Repository.Repo
                     parameters.Add("@StartTid", auctions.StartTid);
                     parameters.Add("@SlutTid", auctions.SlutTid);
                     parameters.Add("@Startbud", auctions.Startbud);
-                    parameters.Add("@UserID", username);
+                    parameters.Add("@UserID", GetUserID());
                     db.Execute("AddUser", parameters, commandType: CommandType.StoredProcedure);
                 }
             }
@@ -71,6 +63,15 @@ namespace Grupp_upgift_Grupp4.Repository.Repo
 
             }
         }
+
+        private string GetUserID()
+        {
+            var userIDClaim = _httpContextAccessor.HttpContext.User.Identity.Name;
+
+            return userIDClaim;
+        }
+
+
         public void Update(Auctions auctions)
         {
             throw new NotImplementedException();

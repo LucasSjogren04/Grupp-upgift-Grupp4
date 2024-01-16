@@ -2,6 +2,7 @@
 using Grupp_upgift_Grupp4.Repository.Interface;
 using Grupp_upgift_Grupp4.Repository.Repo;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.Entity.ModelConfiguration.Configuration;
 using System.Security.Claims;
@@ -14,17 +15,15 @@ namespace Grupp_upgift_Grupp4.Controllers
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IAuctionRepo _auctionRepo;
-        private readonly IUserRepo _userRepo;
 
-        public AuctionController(IAuctionRepo auctionRepo, IHttpContextAccessor httpContextAccessor, IUserRepo userRepo)
+        public AuctionController(IAuctionRepo auctionRepo, IHttpContextAccessor httpContextAccessor)
         {
             _auctionRepo = auctionRepo;
             _httpContextAccessor = httpContextAccessor;
-            _userRepo = userRepo;
         }
 
         [HttpGet("show")]
-        public IActionResult GetAuction() 
+        public IActionResult GetAuction()
         {
             try
             {
@@ -40,15 +39,21 @@ namespace Grupp_upgift_Grupp4.Controllers
         [HttpPost("insert")]
         public IActionResult PostAuction(Auctions auctions)
         {
-            var username = User.FindFirst(ClaimTypes.Name)?.Value;
-            _auctionRepo.Insert(auctions, username);
-            if (user.UserName == username)
+            try
             {
-                return Ok("User update Successfully");
+                _auctionRepo.Insert(auctions);
+                return Ok();
             }
-            else
-                return BadRequest();
-        }
 
+
+            catch (Exception ex)
+            {
+                // Log the exception details (replace Console.WriteLine with your logging mechanism)
+                Console.WriteLine($"An error occurred in GetAll: {ex.Message}");
+
+                // Return HTTP 500 Internal Server Error with an error message
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
     }
 }
