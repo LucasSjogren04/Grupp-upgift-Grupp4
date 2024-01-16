@@ -364,3 +364,4 @@ FodyWeavers.xsd
 # Exclude launch settings file
 launch.settings.json
 /Grupp upgift Grupp4/appsettings.json
+/Grupp upgift Grupp4/appsettings.Development.json
