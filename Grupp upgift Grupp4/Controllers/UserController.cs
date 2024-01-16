@@ -34,7 +34,7 @@ namespace Grupp_upgift_Grupp4.Controllers
         {
             try
             {
-                var username = User.FindFirst(ClaimTypes.Name)?.Value;
+               var username = User.FindFirst(ClaimTypes.Name)?.Value;
                var result = _userRepo.GetUser(username);
 
                 if (username == null)
@@ -114,35 +114,6 @@ namespace Grupp_upgift_Grupp4.Controllers
                 }
                 else
                     return BadRequest();
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred: {ex.Message}");
-
-                // Return an appropriate error response
-                return StatusCode(500, "An error occurred while processing the request.");
-            }
-        }
-
-
-        [HttpPost("AddAuctions")]
-        public IActionResult Create(Auctions auctions)
-        {
-            try
-            {
-                var username = User.FindFirst(ClaimTypes.Name)?.Value;
-                string auction= _userRepo.AddAuctionItem(username,auctions);
-
-                if (auction == "Auction item added successfully")
-                {
-                    return Ok(auction);
-                }
-                else
-                    return StatusCode(400, auction);
-                // If successful, return status code 201
-
-
 
             }
             catch (Exception ex)
