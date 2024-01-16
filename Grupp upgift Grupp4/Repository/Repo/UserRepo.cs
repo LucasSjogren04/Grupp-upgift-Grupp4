@@ -4,6 +4,7 @@ using Grupp_upgift_Grupp4.Repository.Interface;
 using System.Data;
 using System.Data.Common;
 
+
 namespace Grupp_upgift_Grupp4.Repository.Repo
 {
     public class UserRepo : IUserRepo
@@ -123,7 +124,7 @@ namespace Grupp_upgift_Grupp4.Repository.Repo
 
                 parameters.Add("@AuctionTitle", auctions.AuctionTitle);
                 parameters.Add("@AuctionDescription", auctions.AuctionDescription);
-                parameters.Add("@StartBid", auctions.Startbid);
+                parameters.Add("@StartBid", auctions.Startbud);
                 parameters.Add("@StartTid", auctions.StartTid);
                 parameters.Add("@SlutTid", auctions.SlutTid);
                 parameters.Add("@ResultCode", dbType: DbType.String, direction: ParameterDirection.Output, size: 500);

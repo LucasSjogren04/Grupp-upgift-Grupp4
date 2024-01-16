@@ -5,21 +5,25 @@ namespace Grupp_upgift_Grupp4.Models.Entities
     public class Auctions
     {
         [JsonIgnore]
-        public int AuctionId { get; set; }
+        public int AuctionID { get; set; }
         public string AuctionTitle { get; set; }
         public string AuctionDescription { get; set; }
-        public decimal Startbid{ get; set; }
-        public DateOnly StartTid{ get; set;}
-        public DateOnly SlutTid { get; set;}
+        public DateTime StartTid { get; set; }
+        public DateTime SlutTid { get; set; }
+        public decimal Startbud { get; set; }
+        public int UserID { get; set; }
 
-        public Auctions(int auctionId, string auctionTitle, string auctionDescription, decimal startbid, DateOnly startTid, DateOnly slutTid)
+        public Auctions(int auctionId, string auctionTitle, string auctionDescription, decimal startbud, DateTime startTid, DateTime slutTid,int userID)
         {
-            AuctionId = auctionId;
+            AuctionID = auctionId;
             AuctionTitle = auctionTitle;
             AuctionDescription = auctionDescription;
-            Startbid = startbid;
+            Startbud = startbud;
             StartTid = startTid;
             SlutTid = slutTid;
+            UserID = userID;
         }
+
+        public Auctions() { }
     }
 }

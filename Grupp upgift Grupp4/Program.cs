@@ -18,6 +18,7 @@ builder.Services.AddAuthentication("BasicAuthentication")
 
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddSingleton<IDBContext, DBContext>();
+builder.Services.AddScoped<IAuctionRepo, AuctionRepo>();
 
 
 
