@@ -16,6 +16,24 @@ namespace Grupp_upgift_Grupp4.Repository.Repo
             _context = context;
         }
 
+
+        /* select user from users where @username = username
+         * 
+         * Get List of users SP 1
+         * 
+         * 
+         * 
+         * If it exist update it
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         */
+
         public async Task<User> GetUserByUsernameAndPassword(string username, string password)
         {
             // Implement the logic to fetch the user from the database based on the username and password

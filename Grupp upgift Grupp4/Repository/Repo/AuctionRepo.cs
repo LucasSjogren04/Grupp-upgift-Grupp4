@@ -64,9 +64,25 @@ namespace Grupp_upgift_Grupp4.Repository.Repo
 
 
 
-        public void Update(Auctions auctions)
+        public string Update(string username, Auctions auctions)
         {
-            throw new NotImplementedException();
+            using (IDbConnection db = _context.GetConnection())
+            {
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@UserName", username);
+                parameters.Add("@AuctionID", auctions.AuctionID);
+                parameters.Add("@AuctionTitle", auctions.AuctionTitle);
+                parameters.Add("@AuctionDescription", auctions.AuctionDescription);
+                parameters.Add("@StartTime", auctions.StartTime);
+                parameters.Add("@EndTime", auctions.EndTime);
+                parameters.Add("@StartBid", auctions.StartBid);
+                parameters.Add("@ResultCode", dbType: DbType.String, direction: ParameterDirection.Output, size: 500);
+
+                db.Execute("UpdateAuctions", parameters, commandType: CommandType.StoredProcedure);
+
+                return parameters.Get<string>("@ResultCode");
+            }
         }
         public void Delete(int auctionID)
         {

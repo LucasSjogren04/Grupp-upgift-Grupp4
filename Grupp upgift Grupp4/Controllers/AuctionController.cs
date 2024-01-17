@@ -63,5 +63,27 @@ namespace Grupp_upgift_Grupp4.Controllers
                 return StatusCode(500, "An error occurred while processing the request.");
             }
         }
+        
+        [HttpPut("UpdateAuctions")]
+        public IActionResult Update(Auctions auctions)
+        {
+            try
+            {
+                var username = User.FindFirst(ClaimTypes.Name)?.Value;
+                string auction = _auctionRepo.Update(username, auctions);
+
+                if (auction == "Auction item added successfully")
+                {
+                    return Ok(auction);
+                }
+                else
+                    return StatusCode(400, auction);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
+
+        }
     }
 }
