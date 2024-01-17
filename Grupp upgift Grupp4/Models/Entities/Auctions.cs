@@ -11,9 +11,8 @@ namespace Grupp_upgift_Grupp4.Models.Entities
         public DateTime StartTid { get; set; }
         public DateTime SlutTid { get; set; }
         public decimal Startbud { get; set; }
-        public int UserID { get; set; }
 
-        public Auctions(int auctionId, string auctionTitle, string auctionDescription, decimal startbud, DateTime startTid, DateTime slutTid,int userID)
+        public Auctions(int auctionId, string auctionTitle, string auctionDescription, decimal startbud, DateTime startTid, DateTime slutTid)
         {
             AuctionID = auctionId;
             AuctionTitle = auctionTitle;
@@ -21,7 +20,6 @@ namespace Grupp_upgift_Grupp4.Models.Entities
             Startbud = startbud;
             StartTid = startTid;
             SlutTid = slutTid;
-            UserID = userID;
         }
 
         public Auctions() { }
