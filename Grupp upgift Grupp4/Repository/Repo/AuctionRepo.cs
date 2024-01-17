@@ -48,9 +48,9 @@ namespace Grupp_upgift_Grupp4.Repository.Repo
                 parameters.Add("@UserName", username);
                 parameters.Add("@AuctionTitle", auctions.AuctionTitle);
                 parameters.Add("@AuctionDescription", auctions.AuctionDescription);
-                parameters.Add("@StartBid", auctions.StartTime);
                 parameters.Add("@StartTime", auctions.StartTime);
                 parameters.Add("@EndTime", auctions.EndTime);
+                parameters.Add("@StartBid", auctions.StartBid);
                 parameters.Add("@ResultCode", dbType: DbType.String, direction: ParameterDirection.Output, size: 500);
 
                 db.Execute("AddAuctionItem", parameters, commandType: CommandType.StoredProcedure);
