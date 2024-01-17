@@ -2,13 +2,18 @@
 {
     public class Bud
     {
-        public int BudId { get; set; }
-        public decimal BudSumma { get; set; }
+        public int BidID { get; set; }
+        public decimal BidAmount { get; set; }
+        public int UserID { get; set; }
+        public int AuctionID { get; set; }
 
-        public Bud(int budId, decimal budSumma)
+
+        public Bud(int budId, decimal bidAmount, int userID, int auctionID)
         {
-            BudId = budId;
-            BudSumma = budSumma;
+            BidID = budId;
+            BidAmount = bidAmount;
+            UserID = userID;
+            AuctionID = auctionID;
         }
     }
 }

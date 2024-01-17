@@ -8,18 +8,18 @@ namespace Grupp_upgift_Grupp4.Models.Entities
         public int AuctionID { get; set; }
         public string AuctionTitle { get; set; }
         public string AuctionDescription { get; set; }
-        public DateTime StartTid { get; set; }
-        public DateTime SlutTid { get; set; }
-        public decimal Startbud { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public decimal StartBid { get; set; }
 
-        public Auctions(int auctionId, string auctionTitle, string auctionDescription, decimal startbud, DateTime startTid, DateTime slutTid)
+        public Auctions(int auctionId, string auctionTitle, string auctionDescription, DateTime startTime, DateTime endTime, decimal startBid)
         {
             AuctionID = auctionId;
             AuctionTitle = auctionTitle;
-            AuctionDescription = auctionDescription;
-            Startbud = startbud;
-            StartTid = startTid;
-            SlutTid = slutTid;
+            AuctionDescription = auctionDescription;           
+            StartTime = startTime;
+            EndTime = endTime;
+            StartBid = startBid;
         }
 
         public Auctions() { }
