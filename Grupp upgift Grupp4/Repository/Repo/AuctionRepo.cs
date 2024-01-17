@@ -39,37 +39,29 @@ namespace Grupp_upgift_Grupp4.Repository.Repo
                 throw ex;
             }
         }
-        public void Insert(Auctions auctions)
+        public string AddAuctionItem(string username, Auctions auctions)
         {
-
-            try
+            using (IDbConnection db = _context.GetConnection())
             {
-                using (IDbConnection db = _context.GetConnection())
-                {
-                    DynamicParameters parameters = new DynamicParameters();
-                    //parameters.Add("@UserId", user.UserId);
-                    parameters.Add("@AuctionTitle", auctions.AuctionTitle);
-                    parameters.Add("@AuctionDescription", auctions.AuctionDescription);
-                    parameters.Add("@StartTid", auctions.StartTid);
-                    parameters.Add("@SlutTid", auctions.SlutTid);
-                    parameters.Add("@Startbud", auctions.Startbud);
-                    parameters.Add("@UserID", GetUserID());
-                    db.Execute("AddUser", parameters, commandType: CommandType.StoredProcedure);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred in InsertUser: {ex.Message}");
 
+                var parameters = new DynamicParameters();
+                parameters.Add("@UserName", username);
+                parameters.Add("@AuctionTitle", auctions.AuctionTitle);
+                parameters.Add("@AuctionDescription", auctions.AuctionDescription);
+                parameters.Add("@StartBid", auctions.Startbud);
+                parameters.Add("@StartTid", auctions.StartTid);
+                parameters.Add("@SlutTid", auctions.SlutTid);
+                parameters.Add("@ResultCode", dbType: DbType.String, direction: ParameterDirection.Output, size: 500);
+
+                db.Execute("AddAuctionItem", parameters, commandType: CommandType.StoredProcedure);
+
+                return parameters.Get<string>("@ResultCode");
             }
         }
 
-        private string GetUserID()
-        {
-            var userIDClaim = _httpContextAccessor.HttpContext.User.Identity.Name;
 
-            return userIDClaim;
-        }
+
+
 
 
         public void Update(Auctions auctions)

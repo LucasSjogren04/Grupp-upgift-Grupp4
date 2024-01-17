@@ -36,23 +36,31 @@ namespace Grupp_upgift_Grupp4.Controllers
             }
         }
 
-        [HttpPost("insert")]
-        public IActionResult PostAuction(Auctions auctions)
+        [HttpPost("AddAuctions")]
+        public IActionResult Create(Auctions auctions)
         {
             try
             {
-                _auctionRepo.Insert(auctions);
-                return Ok();
+                var username = User.FindFirst(ClaimTypes.Name)?.Value;
+                string auction = _auctionRepo.AddAuctionItem(username, auctions);
+
+                if (auction == "Auction item added successfully")
+                {
+                    return Ok(auction);
+                }
+                else
+                    return StatusCode(400, auction);
+                // If successful, return status code 201
+
+
+
             }
-
-
             catch (Exception ex)
             {
-                // Log the exception details (replace Console.WriteLine with your logging mechanism)
-                Console.WriteLine($"An error occurred in GetAll: {ex.Message}");
+                Console.WriteLine($"An error occurred: {ex.Message}");
 
-                // Return HTTP 500 Internal Server Error with an error message
-                return StatusCode(500, "Internal Server Error");
+                // Return an appropriate error response
+                return StatusCode(500, "An error occurred while processing the request.");
             }
         }
     }

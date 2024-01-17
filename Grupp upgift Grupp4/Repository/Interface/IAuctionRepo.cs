@@ -6,7 +6,7 @@ namespace Grupp_upgift_Grupp4.Repository.Interface
     {
         Auctions GetAcutionSearch(string auctionTitle);
         List<Auctions> GetAuctions();
-        void Insert(Auctions auctions);
+        string AddAuctionItem(string username, Auctions auctions);
         void Update(Auctions auctions);
         void Delete(int auctionID );
     }
