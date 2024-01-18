@@ -15,11 +15,13 @@ namespace Grupp_upgift_Grupp4.Controllers
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IAuctionRepo _auctionRepo;
+        private readonly IUserRepo _userRepo;
 
-        public AuctionController(IAuctionRepo auctionRepo, IHttpContextAccessor httpContextAccessor)
+        public AuctionController(IAuctionRepo auctionRepo, IHttpContextAccessor httpContextAccessor, IUserRepo userRepo)
         {
             _auctionRepo = auctionRepo;
             _httpContextAccessor = httpContextAccessor;
+            _userRepo = userRepo;
         }
 
         [HttpGet("show")]
@@ -41,6 +43,7 @@ namespace Grupp_upgift_Grupp4.Controllers
         {
             try
             {
+                //this sends users to a SP which handels the authentication: BAD!
                 var username = User.FindFirst(ClaimTypes.Name)?.Value;
                 string auction = _auctionRepo.AddAuctionItem(username, auctions);
 
