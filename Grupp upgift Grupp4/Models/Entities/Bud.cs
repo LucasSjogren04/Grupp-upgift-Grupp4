@@ -1,6 +1,6 @@
 ﻿namespace Grupp_upgift_Grupp4.Models.Entities
 {
-    public class Bud
+    public class Bid
     {
         public int BidID { get; set; }
         public decimal BidAmount { get; set; }
@@ -8,9 +8,9 @@
         public int AuctionID { get; set; }
 
 
-        public Bud(int budId, decimal bidAmount, int userID, int auctionID)
+        public Bid(int bidID, decimal bidAmount, int userID, int auctionID)
         {
-            BidID = budId;
+            BidID = bidID;
             BidAmount = bidAmount;
             UserID = userID;
             AuctionID = auctionID;
