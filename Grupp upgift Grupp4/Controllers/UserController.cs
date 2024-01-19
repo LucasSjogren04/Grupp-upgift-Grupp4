@@ -20,13 +20,13 @@ namespace Grupp_upgift_Grupp4.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        
         private readonly IUserRepo _userRepo;
 
-        public UserController(IUserRepo userRepo, IHttpContextAccessor httpContextAccessor)
+        public UserController(IUserRepo userRepo)
         {
             _userRepo = userRepo;
-            _httpContextAccessor = httpContextAccessor;
+
         }
 
         [HttpGet("show")]

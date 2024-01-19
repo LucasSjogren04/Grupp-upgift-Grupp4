@@ -4,10 +4,14 @@ namespace Grupp_upgift_Grupp4.Repository.Interface
 {
     public interface IAuctionRepo
     {
-        Auctions GetAcutionSearch(string auctionTitle);
         List<Auctions> GetAuctions();
-        string AddAuctionItem(string username, Auctions auctions);
-        string Update(string username, Auctions auctions);
+        int GetUserID(string username);
+        //string AddAuctionItem(Auctions auctions);
+        void UpdateAuction(Auctions auctions);
+        List<Auctions> GetLoggedInUsersAuctions(int UserID);
+        List<Bid> GetBidsByAuctionID(int auctionID);
+        decimal GetStartBidByID(int auctionID);
+        Auctions GetAcutionSearch(string auctionTitle);
         void Delete(int auctionID );
     }
 }

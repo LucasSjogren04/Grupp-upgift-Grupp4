@@ -16,24 +16,6 @@ namespace Grupp_upgift_Grupp4.Repository.Repo
             _context = context;
         }
 
-
-        /* select user from users where @username = username
-         * 
-         * Get List of users SP 1
-         * 
-         * 
-         * 
-         * If it exist update it
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         */
-
         public async Task<User> GetUserByUsernameAndPassword(string username, string password)
         {
             // Implement the logic to fetch the user from the database based on the username and password
@@ -65,6 +47,27 @@ namespace Grupp_upgift_Grupp4.Repository.Repo
                 throw ex;
             }
         }
+
+        //This might work 
+        public int GetUserID(string username)
+        {
+            try
+            {
+                using (IDbConnection db = _context.GetConnection())
+                {
+                    var parameters = new DynamicParameters();
+                    parameters.Add("@UserName", username);
+
+                    User user = db.QueryFirstOrDefault<User>("GetUserInfo", parameters, commandType: CommandType.StoredProcedure);
+                    return user.UserID;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
 
         public void Insert(User user)
         {
@@ -131,6 +134,6 @@ namespace Grupp_upgift_Grupp4.Repository.Repo
                 Console.WriteLine($"An error occurred in Delete: {ex.Message}");
 
             }
-        }      
+        }        
     }
 }

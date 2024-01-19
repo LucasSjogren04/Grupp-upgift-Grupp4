@@ -1,5 +1,6 @@
 using Grupp_upgift_Grupp4.Repository.Interface;
 using Grupp_upgift_Grupp4.Repository.Repo;
+using Grupp_upgift_Grupp4.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.OpenApi.Models;
@@ -19,6 +20,7 @@ builder.Services.AddAuthentication("BasicAuthentication")
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddSingleton<IDBContext, DBContext>();
 builder.Services.AddScoped<IAuctionRepo, AuctionRepo>();
+builder.Services.AddScoped<IAuctionServices, AuctionServices>();
 
 
 

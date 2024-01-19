@@ -13,59 +13,42 @@ namespace Grupp_upgift_Grupp4.Controllers
     [ApiController]
     public class AuctionController : ControllerBase
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IAuctionRepo _auctionRepo;
-        private readonly IUserRepo _userRepo;
+        private readonly IAuctionServices _auctionServices;
 
-        public AuctionController(IAuctionRepo auctionRepo, IHttpContextAccessor httpContextAccessor, IUserRepo userRepo)
+        public AuctionController(IAuctionServices auctionServices)
         {
-            _auctionRepo = auctionRepo;
-            _httpContextAccessor = httpContextAccessor;
-            _userRepo = userRepo;
+            _auctionServices = auctionServices;
         }
 
-        [HttpGet("show")]
-        public IActionResult GetAuction()
-        {
-            try
-            {
-                var result = _auctionRepo.GetAuctions();
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //[HttpGet("show")]
+        //public IActionResult GetAuction()
+        //{
+        //    try
+        //    {
+        //        var result = _auctionRepo.GetAuctions();
+        //        return Ok(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
-        [HttpPost("AddAuctions")]
-        public IActionResult Create(Auctions auctions)
-        {
-            try
-            {
-                //this sends users to a SP which handels the authentication: BAD!
-                var username = User.FindFirst(ClaimTypes.Name)?.Value;
-                string auction = _auctionRepo.AddAuctionItem(username, auctions);
-
-                if (auction == "Auction item added successfully")
-                {
-                    return Ok(auction);
-                }
-                else
-                    return StatusCode(400, auction);
-                // If successful, return status code 201
+        //[HttpPost("AddAuctions")]
+        //public IActionResult Create(Auctions auctions)
+        //{
+        //    try
+        //    {
+        //        var username = User.FindFirst(ClaimTypes.Name)?.Value;
+        //        var result = _userRepo.GetUser(username);
 
 
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred: {ex.Message}");
-
-                // Return an appropriate error response
-                return StatusCode(500, "An error occurred while processing the request.");
-            }
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
         
         [HttpPut("UpdateAuctions")]
         public IActionResult Update(Auctions auctions)
@@ -73,16 +56,16 @@ namespace Grupp_upgift_Grupp4.Controllers
             try
             {
                 var username = User.FindFirst(ClaimTypes.Name)?.Value;
-                string auction = _auctionRepo.Update(username, auctions);
+                string result = _auctionServices.UpdateAuction(auctions, username);
 
-                if (auction == "Auction item added successfully")
+                if (result == "Auction Updated")
                 {
-                    return Ok(auction);
+                    return Ok(result);
                 }
                 else
-                    return StatusCode(400, auction);
+                    return StatusCode(400, result);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new Exception();
             }
