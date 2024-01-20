@@ -107,13 +107,14 @@ namespace Grupp_upgift_Grupp4.Controllers
             try
             {
                 var username = User.FindFirst(ClaimTypes.Name)?.Value;
-                _userRepo.Update(user);
+
                 if (user.UserName == username)
                 {
+                    _userRepo.Update(user);
                     return Ok("User update Successfully");
                 }
                 else
-                    return BadRequest();
+                    return BadRequest("Invalid username for update");
 
             }
             catch (Exception ex)
