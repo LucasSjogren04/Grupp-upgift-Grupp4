@@ -122,10 +122,43 @@ namespace Grupp_upgift_Grupp4.Repository.Repo
                 throw new Exception(ex.Message);
             }
         }
-
-        public string Delete(int auctionID)   
+        
+        public void InsertAuction(Auctions auctions)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (IDbConnection db = _context.GetConnection())
+                {
+                    var parameters = new DynamicParameters();
+                    parameters.Add("@AuctionTitle", auctions.AuctionTitle);
+                    parameters.Add("@AuctionDescription", auctions.AuctionDescription);
+                    parameters.Add("@StartTime", auctions.StartTime);
+                    parameters.Add("@EndTime", auctions.EndTime);
+                    parameters.Add("@StartBid", auctions.StartBid);
+                    parameters.Add("UserID", auctions.UserID);
+                    db.Execute("InsertAuction", parameters, commandType: CommandType.StoredProcedure);
+                }
+            }
+            catch(Exception ex) 
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public void DeleteAuction(int auctionID)   
+        {
+            try
+            {
+                using (IDbConnection db = _context.GetConnection())
+                {
+                    var parameters = new DynamicParameters();
+                    parameters.Add("@AuctionID", auctionID);
+                    db.Execute("DeleteAuction", parameters, commandType: CommandType.StoredProcedure);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }        
     }
 }

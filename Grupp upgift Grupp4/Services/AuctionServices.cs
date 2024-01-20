@@ -22,18 +22,69 @@ namespace Grupp_upgift_Grupp4.Services
             Auctions searchedForAuction = _auctionRepo.GetAuctionByAuctionID(auctionID);
             List<Bid> bidsOnAuction = _auctionRepo.GetBidsByAuctionID(auctionID);
 
-            if (searchedForAuction.EndTime < DateTime.Now)
+            //If the acution is still open
+            if (searchedForAuction.EndTime > DateTime.Now)
             {
                 return (searchedForAuction, bidsOnAuction);  
             }
+            //If the Auction is closed
             else
             {
+                //Returns the highest bid (if there is one)
                 Bid maxBid = bidsOnAuction.OrderByDescending(obj => obj.BidAmount).FirstOrDefault();
                 List<Bid> topBid = [maxBid];
                 return (searchedForAuction, topBid);
             }
         }
+        public string AddAuction(Auctions auctions, string username)
+        {
+            int UserID = _userRepo.GetUserID(username);
+            
+            if (UserID != 0) 
+            {
+                auctions.UserID = UserID;
+                _auctionRepo.InsertAuction(auctions);
+                return "Auction inserted";
+            }
+            else
+            {
+                return "You need to be logged in to insert an auction";
+            }
+        }
+        public string DeleteAuction(int auctionID, string username)
+        {
+            List<Bid> bidsOnAuction = _auctionRepo.GetBidsByAuctionID(auctionID);
+            if (bidsOnAuction.Count == 0)
+            {
+                int UserID = _userRepo.GetUserID(username);
 
+                if (UserID != 0)
+                {
+                    List<Auctions> userOwnedAuctions = _auctionRepo.GetLoggedInUsersAuctions(UserID);
+                    foreach (Auctions auction in userOwnedAuctions)
+                    {
+                        if (auction.AuctionID == auctionID)
+                        {
+                            _auctionRepo.DeleteAuction(auctionID);
+                            return "Auction deleted.";
+                        }
+                        else
+                        {
+                            return "You cannot delete an Auction that you do not own.";
+                        }
+                    }
+                    return "That auction doesn't exist";
+                }
+                else
+                {
+                    return "You must be logged in to delete an auction.";
+                }
+            }
+            else
+            {
+                return "You cannot delete an Auction which has been bidded on";
+            }   
+        }
         public string UpdateAuction(Auctions auctions, string username)
         {
             if (!string.IsNullOrEmpty(username))
@@ -41,7 +92,8 @@ namespace Grupp_upgift_Grupp4.Services
                 int UserID = _userRepo.GetUserID(username);
 
                 if (UserID != 0)
-                {  
+                {
+                    auctions.UserID = UserID;
                     List<Auctions> userOwnedAuctions = _auctionRepo.GetLoggedInUsersAuctions(UserID);
                     foreach (Auctions auctionsInList in userOwnedAuctions)
                     {
