@@ -11,15 +11,17 @@ namespace Grupp_upgift_Grupp4.Models.Entities
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public decimal StartBid { get; set; }
+        public int UserID { get; set; }
 
-        public Auctions(int auctionId, string auctionTitle, string auctionDescription, DateTime startTime, DateTime endTime, decimal startBid)
+        public Auctions(int auctionId, string auctionTitle, string auctionDescription, DateTime startTime, DateTime endTime, decimal startBid, int userID)
         {
             AuctionID = auctionId;
             AuctionTitle = auctionTitle;
-            AuctionDescription = auctionDescription;           
+            AuctionDescription = auctionDescription;
             StartTime = startTime;
             EndTime = endTime;
             StartBid = startBid;
+            UserID = userID;
         }
 
         public Auctions() { }

@@ -10,6 +10,7 @@ namespace Grupp_upgift_Grupp4.Repository.Interface
         void UpdateAuction(Auctions auctions);
         List<Auctions> GetLoggedInUsersAuctions(int UserID);
         List<Bid> GetBidsByAuctionID(int auctionID);
-        string Delete(int auctionID );
+        void DeleteAuction(int auctionID);
+        void InsertAuction(Auctions auctions);
     }
 }

@@ -33,10 +33,39 @@ namespace Grupp_upgift_Grupp4.Controllers
                 if (result.bidsOnAuction is List<Bid> bidsOnAuction)
                 {
                     List<Bid> resultBidList = bidsOnAuction;
-                    
-                    string readResult =  (resultAuction.AuctionID.ToString() + " " + resultAuction.AuctionTitle + " " + 
-                        resultAuction.AuctionDescription + " " + resultAuction.StartTime + " " + resultAuction.EndTime + " " +
-                        resultAuction.StartBid + " " + resultAuction.)
+
+                    string readResultAdvertisementWithNoBids = ("Searched for Auction:" + "\n" + 
+                        "AuctionID: " + resultAuction.AuctionID.ToString() + "\n" + 
+                        "AuctionTitle: " + resultAuction.AuctionTitle + "\n" +
+                        "AuctionDescription: " + resultAuction.AuctionDescription + "\n" +
+                        "Auction: " + resultAuction.StartTime + "\n" +
+                        "EndTime: " + resultAuction.EndTime + " \n" +
+                        "StartBid: " + resultAuction.StartBid + "\n" +
+                        "UserID: " + resultAuction.UserID.ToString());
+
+                    //var readResult = (resultAuction + resultBidList).ToList();
+                    if (resultBidList.Count == 0)
+                    {
+                        return Ok(readResultAdvertisementWithNoBids);
+                    }
+                    else
+                    {
+                        string readResultWithBids = ("Searched for Auction:" + "\n" +
+                        "AuctionID: " + resultAuction.AuctionID.ToString() + "\n" +
+                        "AuctionTitle: " + resultAuction.AuctionTitle + "\n" +
+                        "AuctionDescription: " + resultAuction.AuctionDescription + "\n" +
+                        "Auction: " + resultAuction.StartTime + "\n" +
+                        "EndTime: " + resultAuction.EndTime + " \n" +
+                        "StartBid: " + resultAuction.StartBid + "\n" +
+                        "UserID: " + resultAuction.UserID.ToString());
+                        
+                        foreach (var bid in resultBidList) 
+                        {
+                            readResultWithBids += "\n\nBidID: " + bid.BidID.ToString()
+                                + "\nBidAmount: " + bid.BidAmount.ToString();
+                        }
+                        return Ok(readResultWithBids);
+                    }
                 }
                 else
                 {
@@ -48,7 +77,19 @@ namespace Grupp_upgift_Grupp4.Controllers
                 return BadRequest();
             }
         }
-        
+        [HttpPost("AddAuction")]
+        public IActionResult AddAuction(Auctions auctions)
+        {
+            var username = User.FindFirst(ClaimTypes.Name)?.Value;
+            if (username != null)
+            {
+                return Ok(_auctionServices.AddAuction(auctions, username));
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
         [HttpPut("UpdateAuctions")]
         public IActionResult Update(Auctions auctions)
         {
@@ -69,6 +110,20 @@ namespace Grupp_upgift_Grupp4.Controllers
                 throw new Exception();
             }
 
+        }
+        [HttpDelete("DeleteAuction")]
+        public IActionResult Delete(int auctionID)
+        {
+            try
+            {
+                var username = User.FindFirst(ClaimTypes.Name)?.Value;
+                if (username != null)
+                {
+                    return Ok(_auctionServices.DeleteAuction(auctionID, username));
+                }
+                return BadRequest();
+            }
+            catch { return BadRequest(); }
         }
     }
 }
