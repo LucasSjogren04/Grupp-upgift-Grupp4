@@ -1,6 +1,7 @@
 ﻿using Grupp_upgift_Grupp4.Models.Entities;
 using Grupp_upgift_Grupp4.Repository.Interface;
 using System;
+using System.Xml.Linq;
 
 namespace Grupp_upgift_Grupp4.Services
 {
@@ -15,9 +16,22 @@ namespace Grupp_upgift_Grupp4.Services
             _userRepo = userRepo;
         }
 
-        public List<Auctions> GetAuctions()
+        
+        public (Auctions searchedForAuction, List<Bid> bidsOnAuction) GetAuctions(int auctionID)
         {
-            throw new NotImplementedException();
+            Auctions searchedForAuction = _auctionRepo.GetAuctionByAuctionID(auctionID);
+            List<Bid> bidsOnAuction = _auctionRepo.GetBidsByAuctionID(auctionID);
+
+            if (searchedForAuction.EndTime < DateTime.Now)
+            {
+                return (searchedForAuction, bidsOnAuction);  
+            }
+            else
+            {
+                Bid maxBid = bidsOnAuction.OrderByDescending(obj => obj.BidAmount).FirstOrDefault();
+                List<Bid> topBid = [maxBid];
+                return (searchedForAuction, topBid);
+            }
         }
 
         public string UpdateAuction(Auctions auctions, string username)
@@ -29,9 +43,9 @@ namespace Grupp_upgift_Grupp4.Services
                 if (UserID != 0)
                 {  
                     List<Auctions> userOwnedAuctions = _auctionRepo.GetLoggedInUsersAuctions(UserID);
-                    foreach (Auctions auctionsinList in userOwnedAuctions)
+                    foreach (Auctions auctionsInList in userOwnedAuctions)
                     {
-                        if (auctionsinList.AuctionID == auctions.AuctionID)
+                        if (auctionsInList.AuctionID == auctions.AuctionID)
                         {
                             int auctionID = auctions.AuctionID;
                             List<Bid> bidList = _auctionRepo.GetBidsByAuctionID(auctionID); 
@@ -42,9 +56,8 @@ namespace Grupp_upgift_Grupp4.Services
                             }
                             else
                             {
-                                decimal StartBid = _auctionRepo.GetStartBidByID(auctionID);
-                                decimal insertedStartBid = auctions.StartBid;
-                                if (insertedStartBid == StartBid)
+                                Auctions auctionForUpdate = _auctionRepo.GetAuctionByAuctionID(auctionID);
+                                if (auctionForUpdate.StartBid == auctions.StartBid)
                                 {
                                     _auctionRepo.UpdateAuction(auctions);
                                     return "Auction Updated";

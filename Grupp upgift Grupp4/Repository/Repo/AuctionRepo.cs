@@ -40,6 +40,15 @@ namespace Grupp_upgift_Grupp4.Repository.Repo
                 throw ex;
             }
         }
+        public Auctions GetAuctionByID(int auctionID)
+        {
+            using (IDbConnection db = _context.GetConnection())
+            {
+                var parameter = new DynamicParameters();
+                parameter.Add("@AuctionID", auctionID);
+                return (Auctions)db.Query("GetAuctionByID", commandType: CommandType.StoredProcedure);
+            }
+        }
 
         public void UpdateAuction(Auctions auctions)
         {
@@ -57,39 +66,6 @@ namespace Grupp_upgift_Grupp4.Repository.Repo
                 db.Execute("UpdateAuction", parameters, commandType: CommandType.StoredProcedure);
             }
         }
-        public int GetUserID(string username)
-        {
-            try
-            {
-                using (IDbConnection db = _context.GetConnection())
-                {
-                    var parameters = new DynamicParameters(); 
-                    parameters.Add("@UserName", username);
-                    var userID = db.Query("GetUserID", parameters, commandType: CommandType.StoredProcedure).SingleOrDefault();
-                    Console.WriteLine(userID);
-                    string teststring = RemoveFirstAndLastCharacters(userID);
-                    int reUserID = int.Parse(teststring);
-                    Console.WriteLine(reUserID);
-                    return reUserID;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-        public string RemoveFirstAndLastCharacters(string input)
-        {
-            if (input.Length < 2)
-            {
-                // If the string has less than 2 characters, return an empty string or handle it as needed.
-                return string.Empty;
-            }
-
-            // Use substring to remove the first and last characters.
-            return input.Substring(1, input.Length - 2);
-        }
-
         public List<Auctions> GetLoggedInUsersAuctions(int UserID)
         {
             try
@@ -127,7 +103,7 @@ namespace Grupp_upgift_Grupp4.Repository.Repo
                 throw new Exception(ex.Message);
             }
         }
-        public decimal GetStartBidByID(int auctionID)
+        public Auctions GetAuctionByAuctionID(int auctionID)
         {
             try
             {
@@ -136,8 +112,9 @@ namespace Grupp_upgift_Grupp4.Repository.Repo
                     var parameters = new DynamicParameters();
                     parameters.Add("@AuctionID", auctionID);
 
-                    decimal startBid = db.Query("GetStartBidByID", parameters, commandType: CommandType.StoredProcedure).SingleOrDefault();
-                    return startBid;
+                    Auctions searchedForAuction = db.QueryFirstOrDefault<Auctions>("GetAuctionByID", parameters, commandType: CommandType.StoredProcedure);
+                    Console.WriteLine(searchedForAuction.AuctionTitle);
+                    return searchedForAuction;
                 }
             }
             catch (Exception ex)
@@ -146,15 +123,9 @@ namespace Grupp_upgift_Grupp4.Repository.Repo
             }
         }
 
-        public void Delete(int auctionID)
+        public string Delete(int auctionID)   
         {
             throw new NotImplementedException();
-        }
-        public Auctions GetAcutionSearch(string auctionTitle)
-        {
-            throw new NotImplementedException();
-        }
-
-        
+        }        
     }
 }

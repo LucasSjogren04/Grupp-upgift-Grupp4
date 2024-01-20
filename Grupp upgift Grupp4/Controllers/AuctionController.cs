@@ -4,6 +4,7 @@ using Grupp_upgift_Grupp4.Repository.Repo;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Data.Entity.ModelConfiguration.Configuration;
 using System.Security.Claims;
 
@@ -20,35 +21,33 @@ namespace Grupp_upgift_Grupp4.Controllers
             _auctionServices = auctionServices;
         }
 
-        //[HttpGet("show")]
-        //public IActionResult GetAuction()
-        //{
-        //    try
-        //    {
-        //        var result = _auctionRepo.GetAuctions();
-        //        return Ok(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+        [HttpGet("GetAuctionByID")]
+        public IActionResult GetAuctions(int auctionID)
+        {
+            var result = _auctionServices.GetAuctions(auctionID);
 
-        //[HttpPost("AddAuctions")]
-        //public IActionResult Create(Auctions auctions)
-        //{
-        //    try
-        //    {
-        //        var username = User.FindFirst(ClaimTypes.Name)?.Value;
-        //        var result = _userRepo.GetUser(username);
+            if (result.searchedForAuction is Auctions searchedForAuction)
+            {
+                Auctions resultAuction = searchedForAuction;
 
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+                if (result.bidsOnAuction is List<Bid> bidsOnAuction)
+                {
+                    List<Bid> resultBidList = bidsOnAuction;
+                    
+                    string readResult =  (resultAuction.AuctionID.ToString() + " " + resultAuction.AuctionTitle + " " + 
+                        resultAuction.AuctionDescription + " " + resultAuction.StartTime + " " + resultAuction.EndTime + " " +
+                        resultAuction.StartBid + " " + resultAuction.)
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
         
         [HttpPut("UpdateAuctions")]
         public IActionResult Update(Auctions auctions)
