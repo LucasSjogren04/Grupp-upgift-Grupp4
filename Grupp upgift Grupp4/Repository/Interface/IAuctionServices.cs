@@ -5,9 +5,9 @@ namespace Grupp_upgift_Grupp4.Repository.Interface
     public interface IAuctionServices
     {
         string UpdateAuction(Auctions auctions, string username);
-        List<Auctions> GetAuctions();
-        
-        
+        (Auctions searchedForAuction, List<Bid> bidsOnAuction) GetAuctions(int auctionID);
+
+
         //ignore these comments <--------------------- READ THIS
 
 
