@@ -10,10 +10,12 @@ namespace Grupp_upgift_Grupp4.Repository.Repo
     public class UserRepo : IUserRepo
     {
         private readonly IDBContext _context;
+        private readonly IHttpContextAccessor _contextAccessor;
 
-        public UserRepo(IDBContext context)
+        public UserRepo(IDBContext context, IHttpContextAccessor contextAccessor)
         {
             _context = context;
+            _contextAccessor = contextAccessor;
         }
 
         public async Task<User> GetUserByUsernameAndPassword(string username, string password)
