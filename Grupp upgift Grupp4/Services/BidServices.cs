@@ -59,15 +59,33 @@ namespace Grupp_upgift_Grupp4.Services
                 {
                     return "Bid was lower than starting bid";
                 }
-            } return "You must be logged in to place a bid";
-        
-               
+            }
+            return "You must be logged in to place a bid";
+
+
         }
         /*Kolla om Auktionen inte är stängd isåfall ska det gå att ta ångra sitt bud*/
-        public string DeleteBid()
+        public string DeleteBid(int bidID,string username)
         {
-            return null;
+            int UserID = _userRepo.GetUserID(username);
+            if (UserID != 0)
+            {
+                var getBid = _bidRepo.GetBidbyID(bidID);
+                if (getBid.UserID == UserID)
+                {
+                    if (getBid != null)
+                    {
+                        var auction = _auctionRepo.GetAuctionByAuctionID(getBid.AuctionID);
+                        if (auction.EndTime < DateTime.Now)
+                        {
+                            _bidRepo.DeleteBid(bidID);
+                            return "Bid deleted";
+                        }return "cannot remove bid if auction has been closed";
+                    }return "you have no bids";
+                } return "You can only delete your own bid";
+            } return "You need to be logged in to delete a bid";
         }
+           
 
     }
 }
