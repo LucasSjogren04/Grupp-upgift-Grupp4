@@ -4,16 +4,20 @@ using Grupp_upgift_Grupp4.Repository.Interface;
 using System.Data.Entity;
 using System.Data;
 using System.Data.Entity.ModelConfiguration.Configuration;
+using Microsoft.AspNetCore.Http;
 
 namespace Grupp_upgift_Grupp4.Repository.Repo
 {
     public class BidRepo : IBidRepo
     {
         private readonly IDBContext _context;
+      
+
 
         public BidRepo(IDBContext context)
         {
             _context = context;
+          
         }
         public void InsertBid(Bid bids)
         {
