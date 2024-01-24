@@ -12,18 +12,18 @@ namespace Grupp_upgift_Grupp4.Controllers
     [ApiController]
     public class BidController : ControllerBase
     {
-        private readonly IBidServices _BidServices;
+        private readonly IBidServices _bidServices;
         public BidController(IBidServices bidServices)
         {
-            _BidServices = bidServices;
+            _bidServices = bidServices;
         }
         [HttpPost("InsertBid")]
-        public IActionResult insertBid(Bid bids) 
+        public IActionResult InsertBid(Bid bids) 
         {
             var username = User.FindFirst(ClaimTypes.Name)?.Value;
             if (username != null)
             {
-                return Ok(_BidServices.InsertBid(bids, username));
+                return Ok(_bidServices.InsertBid(bids, username));
             }
             else
             {

@@ -16,13 +16,12 @@ builder.Services.AddControllers();
 builder.Services.AddAuthentication("BasicAuthentication")
     .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
-
-builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddSingleton<IDBContext, DBContext>();
+builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<IAuctionRepo, AuctionRepo>();
 builder.Services.AddScoped<IAuctionServices, AuctionServices>();
 builder.Services.AddScoped<IBidRepo, BidRepo>();
-builder.Services.AddScoped<IBidServices, BidServices>();
+builder.Services.AddScoped<IBidServices, BidServices>(); 
 
 
 builder.Services.AddHttpContextAccessor();

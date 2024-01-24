@@ -6,8 +6,6 @@ using System.Xml.Linq;
 namespace Grupp_upgift_Grupp4.Services
 {
 
-
-
     public class BidServices : IBidServices
     {
         /*Den användare som skapat auktionen kan inte
@@ -20,15 +18,11 @@ namespace Grupp_upgift_Grupp4.Services
         */
         /* Hämta Lista på tidigare bud kolla om det är högre än dom tidigare buden */
         
-        private readonly AuctionRepo _auctionRepo;
-        private readonly BidRepo _bidRepo;
-        private readonly UserRepo _userRepo;
-     
+        private readonly IAuctionRepo _auctionRepo;
+        private readonly IBidRepo _bidRepo;
+        private readonly IUserRepo _userRepo;
 
-
-
-
-        public BidServices(AuctionRepo auctionRepo, BidRepo bidRepo, UserRepo userRepo)
+        public BidServices(IAuctionRepo auctionRepo, IBidRepo bidRepo, IUserRepo userRepo)
         {
             _auctionRepo = auctionRepo;
             _bidRepo = bidRepo;
