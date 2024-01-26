@@ -34,38 +34,50 @@ namespace Grupp_upgift_Grupp4.Services
 
             if (UserID != 0)
             {
+
+
+
+
                 List<Bid> bidList = _auctionRepo.GetBidsByAuctionID(bids.AuctionID);
                 var startBid = _auctionRepo.GetAuctionByAuctionID(bids.AuctionID);
                 Bid maxBid = bidList.OrderByDescending(obj => obj.BidAmount).FirstOrDefault();
                 bids.UserID = UserID;
-                if (startBid.StartBid < bids.BidAmount)
+
+
+                var auction = _auctionRepo.GetAuctionByAuctionID(bids.AuctionID);
+                if (UserID != startBid.UserID)
                 {
-                    if (maxBid == null)
+                    if (auction.EndTime > DateTime.Now)
                     {
-                        _bidRepo.InsertBid(bids);
-                        return "Bid Inserted";
+                        if (startBid.StartBid < bids.BidAmount)
+                        {
+                            if (maxBid == null)
+                            {
+                                _bidRepo.InsertBid(bids);
+                                return "Bid Inserted";
+                            }
+                            else if (bids.BidAmount > maxBid.BidAmount)
+                            {
+                                _bidRepo.InsertBid(bids);
+                                return "bid Inserted";
+                            }
+                            return "New bid must be higher than the last bid";
+                        }
+                        return "Bid was lower than starting bid";
                     }
-                    else if (bids.BidAmount > maxBid.BidAmount)
-                    {
-                        _bidRepo.InsertBid(bids);
-                        return "bid Inserted";
-                    }
-                    else
-                    {
-                        return "New bid must be higher than the last bid";
-                    }
+                    return "Auction Has been closed";
                 }
-                else
-                {
-                    return "Bid was lower than starting bid";
-                }
+                return "You Cannot bid on your own auction";
             }
             return "You must be logged in to place a bid";
-
-
         }
+
+
+
+
+
         /*Kolla om Auktionen inte är stängd isåfall ska det gå att ta ångra sitt bud*/
-        public string DeleteBid(int bidID,string username)
+        public string DeleteBid(int bidID, string username)
         {
             int UserID = _userRepo.GetUserID(username);
             if (UserID != 0)
@@ -76,16 +88,20 @@ namespace Grupp_upgift_Grupp4.Services
                     if (getBid != null)
                     {
                         var auction = _auctionRepo.GetAuctionByAuctionID(getBid.AuctionID);
-                        if (auction.EndTime < DateTime.Now)
+                        if (auction.EndTime > DateTime.Now)
                         {
                             _bidRepo.DeleteBid(bidID);
                             return "Bid deleted";
-                        }return "cannot remove bid if auction has been closed";
-                    }return "you have no bids";
-                } return "You can only delete your own bid";
-            } return "You need to be logged in to delete a bid";
+                        }
+                        return "cannot remove bid if auction has been closed";
+                    }
+                    return "you have no bids";
+                }
+                return "You can only delete your own bid";
+            }
+            return "You need to be logged in to delete a bid";
         }
-           
+
 
     }
 }

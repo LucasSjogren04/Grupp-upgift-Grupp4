@@ -44,6 +44,4 @@ namespace Grupp_upgift_Grupp4.Controllers
             }
         }
     } 
-    
-    
 }
