@@ -17,7 +17,6 @@ namespace Group_upgift_Grupp4.Test_1.Controller
 {
     public class UserControllesTest
     {
-        private readonly IUserRepo _userRepo;
 
         [Fact]
         public void Update_ValidUser_ReturnsOk()
@@ -67,7 +66,7 @@ namespace Group_upgift_Grupp4.Test_1.Controller
         }
 
         [Fact]
-        public async Task Update_InvalidUser_ReturnsBadRequest()
+        public void Update_InvalidUser_ReturnsBadRequest()
         {
             // Arrange
             var mockUserRepo = new Mock<IUserRepo>();
