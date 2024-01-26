@@ -17,7 +17,7 @@ namespace Grupp_upgift_Grupp4.Services
         Detta måste vara högre än det tidigare högsta budet,
         */
         /* Hämta Lista på tidigare bud kolla om det är högre än dom tidigare buden */
-        
+
         private readonly IAuctionRepo _auctionRepo;
         private readonly IBidRepo _bidRepo;
         private readonly IUserRepo _userRepo;
@@ -35,29 +35,58 @@ namespace Grupp_upgift_Grupp4.Services
             if (UserID != 0)
             {
                 List<Bid> bidList = _auctionRepo.GetBidsByAuctionID(bids.AuctionID);
+                var startBid = _auctionRepo.GetAuctionByAuctionID(bids.AuctionID);
                 Bid maxBid = bidList.OrderByDescending(obj => obj.BidAmount).FirstOrDefault();
                 bids.UserID = UserID;
-                if(bids.BidAmount > maxBid.BidAmount )
+                if (startBid.StartBid < bids.BidAmount)
                 {
-                    _bidRepo.InsertBid(bids);
-                    return "Bid Inserted";
+                    if (maxBid == null)
+                    {
+                        _bidRepo.InsertBid(bids);
+                        return "Bid Inserted";
+                    }
+                    else if (bids.BidAmount > maxBid.BidAmount)
+                    {
+                        _bidRepo.InsertBid(bids);
+                        return "bid Inserted";
+                    }
+                    else
+                    {
+                        return "New bid must be higher than the last bid";
+                    }
                 }
-                else 
+                else
                 {
-                    return "New bid must be higher than the last bid";
+                    return "Bid was lower than starting bid";
                 }
             }
-            else
-            {
-                return "You need to be logged in to insert a bid";
-            }
+            return "You must be logged in to place a bid";
+
+
         }
         /*Kolla om Auktionen inte är stängd isåfall ska det gå att ta ångra sitt bud*/
-        public string DeleteBid() 
+        public string DeleteBid(int bidID,string username)
         {
-            return null;   
+            int UserID = _userRepo.GetUserID(username);
+            if (UserID != 0)
+            {
+                var getBid = _bidRepo.GetBidbyID(bidID);
+                if (getBid.UserID == UserID)
+                {
+                    if (getBid != null)
+                    {
+                        var auction = _auctionRepo.GetAuctionByAuctionID(getBid.AuctionID);
+                        if (auction.EndTime < DateTime.Now)
+                        {
+                            _bidRepo.DeleteBid(bidID);
+                            return "Bid deleted";
+                        }return "cannot remove bid if auction has been closed";
+                    }return "you have no bids";
+                } return "You can only delete your own bid";
+            } return "You need to be logged in to delete a bid";
         }
-        
+           
+
     }
 }
 

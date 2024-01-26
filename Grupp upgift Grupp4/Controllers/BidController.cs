@@ -30,6 +30,19 @@ namespace Grupp_upgift_Grupp4.Controllers
                 return BadRequest();
             }
         }
+        [HttpDelete("DeleteBid")]
+        public IActionResult DeleteBid(int BidID) 
+        { 
+            var username = User.FindFirst(ClaimTypes.Name)?.Value; ;
+            if (username != null) 
+            {
+                return Ok(_bidServices.DeleteBid(BidID, username));
+            }
+            else 
+            {
+                return BadRequest();
+            }
+        }
     } 
     
     
