@@ -101,9 +101,7 @@ namespace Grupp_upgift_Grupp4.Controllers
                 if (result == "Auction Updated")
                 {
                     return Ok(result);
-                }
-                else
-                    return StatusCode(400, result);
+                }return BadRequest(result);
             }
             catch (Exception)
             {
