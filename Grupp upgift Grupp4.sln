@@ -5,9 +5,7 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grupp upgift Grupp4", "Grupp upgift Grupp4\Grupp upgift Grupp4.csproj", "{5EBE38A3-DFAC-42D4-8BE5-4A1CC11E95B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Group upgift Grupp4.Test_1", "Group upgift Grupp4.Test_1\Group upgift Grupp4.Test_1.csproj", "{7C2CBABD-D68D-458F-A91F-81FB1989B3C5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BidControllerTest", "BidControllerTest\BidControllerTest.csproj", "{9135B562-6BE1-4E87-9A0C-3B482A0A6725}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Group upgift Grupp4.Test_1", "Group upgift Grupp4.Test_1\Group upgift Grupp4.Test_1.csproj", "{7C2CBABD-D68D-458F-A91F-81FB1989B3C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		{7C2CBABD-D68D-458F-A91F-81FB1989B3C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C2CBABD-D68D-458F-A91F-81FB1989B3C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C2CBABD-D68D-458F-A91F-81FB1989B3C5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9135B562-6BE1-4E87-9A0C-3B482A0A6725}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9135B562-6BE1-4E87-9A0C-3B482A0A6725}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9135B562-6BE1-4E87-9A0C-3B482A0A6725}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9135B562-6BE1-4E87-9A0C-3B482A0A6725}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
