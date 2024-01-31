@@ -13,12 +13,14 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using static Grupp_upgift_Grupp4.Models.Entities.User;
+using static System.Data.Entity.Infrastructure.Design.Executor;
 
 namespace Group_upgift_Grupp4.Test_1.Controller
 {
     public class AuctionControllerTest : ControllerBase
     {
         private readonly IAuctionServices _auctionServices;
+        private readonly IAuctionRepo _auctionRepo;
 
         public AuctionControllerTest()
         {
@@ -26,7 +28,7 @@ namespace Group_upgift_Grupp4.Test_1.Controller
         }
 
         [Fact]
-        public void AuctionController_UpdateAuction_ReturnsOk()
+        public void AuctionController_UpdateAuction_ReturnsBadRequest()
         {
             //Arrange
             //string username = "1";
@@ -38,10 +40,11 @@ namespace Group_upgift_Grupp4.Test_1.Controller
             };
 
             //Act
-            var result = controller.Update(auctions);
+            var result = controller.Update(auctions) as ObjectResult;
 
             //Assert
             Assert.NotNull(result);
+            Assert.Equal(StatusCodes.Status400BadRequest, result.StatusCode);
         }
     }
 }
