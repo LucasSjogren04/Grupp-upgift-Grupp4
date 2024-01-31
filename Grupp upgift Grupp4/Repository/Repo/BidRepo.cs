@@ -64,7 +64,7 @@ namespace Grupp_upgift_Grupp4.Repository.Repo
                     var parameters = new DynamicParameters();
                     parameters.Add("@BidID", bid);
                     
-                  return db.QueryFirstOrDefault("GetBid", parameters, commandType: CommandType.StoredProcedure);
+                  return db.Query<Bid>("GetBid", parameters, commandType: CommandType.StoredProcedure).SingleOrDefault();
                     
                 }
             }

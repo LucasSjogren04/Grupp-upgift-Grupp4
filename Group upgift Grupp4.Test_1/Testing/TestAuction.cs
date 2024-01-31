@@ -16,11 +16,11 @@ using static Grupp_upgift_Grupp4.Models.Entities.User;
 
 namespace Group_upgift_Grupp4.Test_1.Controller
 {
-    public class AuctionControllerTest : ControllerBase
+    public class TestAuction : ControllerBase
     {
         private readonly IAuctionServices _auctionServices;
 
-        public AuctionControllerTest()
+        public TestAuction()
         {
             _auctionServices = A.Fake<IAuctionServices>();
         }

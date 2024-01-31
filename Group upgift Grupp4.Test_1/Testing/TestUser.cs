@@ -13,9 +13,9 @@ using System.Threading.Tasks;
 using static Grupp_upgift_Grupp4.Models.Entities.User;
 
 
-namespace Group_upgift_Grupp4.Test_1.Controller
+namespace Group_upgift_Grupp4.Test.Controller
 {
-    public class UserControllesTest
+    public class TestUser
     {
 
         [Fact]
