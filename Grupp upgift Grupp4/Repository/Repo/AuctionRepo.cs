@@ -94,8 +94,8 @@ namespace Grupp_upgift_Grupp4.Repository.Repo
                     var parameters = new DynamicParameters();
                     parameters.Add("@AuctionID", auctionID);
 
-                    List<Bid> bidList = (List<Bid>)db.Query<Bid>("GetBidsByAuctionID", parameters, commandType: CommandType.StoredProcedure);
-                    return bidList;
+                    return db.Query<Bid>("GetBidsByAuctionID", parameters, commandType: CommandType.StoredProcedure).ToList();
+                    
                 }
             }
             catch (Exception ex)
@@ -135,7 +135,7 @@ namespace Grupp_upgift_Grupp4.Repository.Repo
                     parameters.Add("@StartTime", auctions.StartTime);
                     parameters.Add("@EndTime", auctions.EndTime);
                     parameters.Add("@StartBid", auctions.StartBid);
-                    parameters.Add("UserID", auctions.UserID);
+                    parameters.Add("@UserID", auctions.UserID);
                     db.Execute("InsertAuction", parameters, commandType: CommandType.StoredProcedure);
                 }
             }

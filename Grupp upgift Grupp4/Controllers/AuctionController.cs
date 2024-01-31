@@ -34,7 +34,7 @@ namespace Grupp_upgift_Grupp4.Controllers
                 {
                     List<Bid> resultBidList = bidsOnAuction;
 
-                    string readResultAdvertisementWithNoBids = ("Searched for Auction:" + "\n" + 
+                    string resultRead = ("Searched for Auction:" + "\n" + 
                         "AuctionID: " + resultAuction.AuctionID.ToString() + "\n" + 
                         "AuctionTitle: " + resultAuction.AuctionTitle + "\n" +
                         "AuctionDescription: " + resultAuction.AuctionDescription + "\n" +
@@ -44,28 +44,16 @@ namespace Grupp_upgift_Grupp4.Controllers
                         "UserID: " + resultAuction.UserID.ToString());
 
                     //var readResult = (resultAuction + resultBidList).ToList();
-                    if (resultBidList.Count == 0)
+                    if (resultBidList.Count() != 0)
                     {
-                        return Ok(readResultAdvertisementWithNoBids);
-                    }
-                    else
-                    {
-                        string readResultWithBids = ("Searched for Auction:" + "\n" +
-                        "AuctionID: " + resultAuction.AuctionID.ToString() + "\n" +
-                        "AuctionTitle: " + resultAuction.AuctionTitle + "\n" +
-                        "AuctionDescription: " + resultAuction.AuctionDescription + "\n" +
-                        "Auction: " + resultAuction.StartTime + "\n" +
-                        "EndTime: " + resultAuction.EndTime + " \n" +
-                        "StartBid: " + resultAuction.StartBid + "\n" +
-                        "UserID: " + resultAuction.UserID.ToString());
-                        
-                        foreach (var bid in resultBidList) 
+                        foreach (Bid bid in resultBidList)
                         {
-                            readResultWithBids += "\n\nBidID: " + bid.BidID.ToString()
+                            resultRead += "\n\nBidID: " + bid.BidID.ToString()
                                 + "\nBidAmount: " + bid.BidAmount.ToString();
                         }
-                        return Ok(readResultWithBids);
+                        return Ok(resultRead);
                     }
+                    return Ok(resultRead);
                 }
                 else
                 {
