@@ -8,6 +8,7 @@ namespace Grupp_upgift_Grupp4.Repository.Interface
         (Auctions searchedForAuction, List<Bid> bidsOnAuction) GetAuctions(int auctionID);
         string DeleteAuction(int auctionID, string username);
         string AddAuction(Auctions auctions, string username);
+        string GetAuctions2(int auctionID);
 
 
         //ignore these comments <--------------------- READ THIS

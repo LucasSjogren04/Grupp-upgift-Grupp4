@@ -16,7 +16,7 @@ namespace Grupp_upgift_Grupp4.Services
             _userRepo = userRepo;
         }
 
-
+        //this is not used
         public (Auctions searchedForAuction, List<Bid> bidsOnAuction) GetAuctions(int auctionID)
         {
             Auctions searchedForAuction = _auctionRepo.GetAuctionByAuctionID(auctionID);
@@ -40,6 +40,45 @@ namespace Grupp_upgift_Grupp4.Services
                 return (searchedForAuction, null);
             }
         }
+
+        //this is used
+        public string GetAuctions2(int auctionID)
+        {
+            Auctions searchedForAuction = _auctionRepo.GetAuctionByAuctionID(auctionID);
+            List<Bid> bidsOnAuction = _auctionRepo.GetBidsByAuctionID(auctionID);
+
+            if (searchedForAuction != null)
+            {
+                string result = ("Searched For Auction: " + searchedForAuction.AuctionID + "\n" +
+                        searchedForAuction.AuctionTitle + "\n" +
+                        searchedForAuction.AuctionDescription + "\n" +
+                        searchedForAuction.StartTime + "\n" +
+                        searchedForAuction.EndTime + "\n" +
+                        searchedForAuction.StartBid + "\n" +
+                        searchedForAuction.UserID + "\n\n" +
+                        "Bids on auction: " + "\n\n");
+                
+                if (bidsOnAuction.Count != 0 && searchedForAuction.EndTime > DateTime.Now)
+                {
+                    foreach (Bid bid in bidsOnAuction)
+                    {
+                        result += ("Amount: " + bid.BidAmount + "\n"+
+                            "UserID: " + bid.UserID +"\n");
+                    }
+                    return result;
+                }
+                if(bidsOnAuction.Count != 0 || searchedForAuction.EndTime < DateTime.Now)
+                {
+                    Bid maxBid = bidsOnAuction.OrderByDescending(obj => obj.BidAmount).FirstOrDefault();
+                    result += ("Highest bid on auction: \n" + "Amount: " + maxBid.BidAmount + "\n"+
+                       "UserID: " + maxBid.UserID);
+                    return result;
+                }
+            }
+            return "That auction doesn't exist";
+
+        }
+
         public string AddAuction(Auctions auctions, string username)
         {
             int UserID = _userRepo.GetUserID(username);

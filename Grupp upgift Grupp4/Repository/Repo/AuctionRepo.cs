@@ -113,7 +113,6 @@ namespace Grupp_upgift_Grupp4.Repository.Repo
                     parameters.Add("@AuctionID", auctionID);
 
                     Auctions searchedForAuction = db.QueryFirstOrDefault<Auctions>("GetAuctionByID", parameters, commandType: CommandType.StoredProcedure);
-                    Console.WriteLine(searchedForAuction.AuctionTitle);
                     return searchedForAuction;
                 }
             }

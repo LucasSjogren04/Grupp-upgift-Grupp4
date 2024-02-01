@@ -24,47 +24,15 @@ namespace Grupp_upgift_Grupp4.Controllers
         [HttpGet("GetAuctionByID")]
         public IActionResult GetAuctions(int auctionID)
         {
-            var result = _auctionServices.GetAuctions(auctionID);
+            string result = _auctionServices.GetAuctions2(auctionID);
 
-            if (result.searchedForAuction is Auctions searchedForAuction)
+            if(result.Contains("Searched For Auction: ")) 
             {
-                Auctions resultAuction = searchedForAuction;
-
-                if (result.bidsOnAuction is List<Bid> bidsOnAuction)
-                {
-                    List<Bid> resultBidList = bidsOnAuction;
-
-                    string resultRead = ("Searched for Auction:" + "\n" + 
-                        "AuctionID: " + resultAuction.AuctionID.ToString() + "\n" + 
-                        "AuctionTitle: " + resultAuction.AuctionTitle + "\n" +
-                        "AuctionDescription: " + resultAuction.AuctionDescription + "\n" +
-                        "Auction: " + resultAuction.StartTime + "\n" +
-                        "EndTime: " + resultAuction.EndTime + " \n" +
-                        "StartBid: " + resultAuction.StartBid + "\n" +
-                        "UserID: " + resultAuction.UserID.ToString());
-
-                    //var readResult = (resultAuction + resultBidList).ToList();
-                    if (resultBidList.Count() != 0)
-                    {
-                        foreach (Bid bid in resultBidList)
-                        {
-                            resultRead += "\n\nBidID: " + bid.BidID.ToString()
-                                + "\nBidAmount: " + bid.BidAmount.ToString();
-                        }
-                        return Ok(resultRead);
-                    }
-                    return Ok(resultRead);
-                }
-                else
-                {
-                    return BadRequest();
-                }
+                return Ok(result);
             }
-            else
-            {
-                return BadRequest();
-            }
+            return BadRequest(result);
         }
+
         [HttpPost("AddAuction")]
         public IActionResult AddAuction(Auctions auctions)
         {
