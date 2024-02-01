@@ -75,9 +75,9 @@ namespace Grupp_upgift_Grupp4.Repository.Repo
                     var parameters = new DynamicParameters();
                     parameters.Add("@UserID", UserID);
 
-                    List<Auctions> userOwnedAuctions = (List<Auctions>)db.Query<Auctions>("GetLoggedInUsersAuctions", parameters, commandType: CommandType.StoredProcedure);
+                     return db.Query<Auctions>("GetLoggedInUsersAuctions", parameters, commandType: CommandType.StoredProcedure).ToList();
                     
-                    return userOwnedAuctions;
+                   
                 }
             }
             catch (Exception ex)
