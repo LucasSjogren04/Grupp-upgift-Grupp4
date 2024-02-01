@@ -40,19 +40,32 @@ namespace Grupp_upgift_Grupp4.Services
                 bids.UserID = UserID;
                 if (startBid.StartBid < bids.BidAmount)
                 {
+                    if (startBid.UserID == bids.UserID)
+                    {
+                        return "Cannot bid for own auction";
+                    }
+                    else if (startBid.EndTime < DateTime.Now)
+                    {
+                        return "Cannot bid for expired auction";
+                    }
+                    else 
+                    {
                     if (maxBid == null)
-                    {
-                        _bidRepo.InsertBid(bids);
-                        return "Bid Inserted";
-                    }
-                    else if (bids.BidAmount > maxBid.BidAmount)
-                    {
-                        _bidRepo.InsertBid(bids);
-                        return "bid Inserted";
-                    }
-                    else
-                    {
-                        return "New bid must be higher than the last bid";
+                        {
+
+                            _bidRepo.InsertBid(bids);
+                            return "Bid Inserted";
+
+                        }
+                        else if (bids.BidAmount > maxBid.BidAmount)
+                        {
+                            _bidRepo.InsertBid(bids);
+                            return "bid Inserted";
+                        }
+                        else
+                        {
+                            return "New bid must be higher than the last bid";
+                        }
                     }
                 }
                 else
@@ -76,7 +89,8 @@ namespace Grupp_upgift_Grupp4.Services
                     if (getBid != null)
                     {
                         var auction = _auctionRepo.GetAuctionByAuctionID(getBid.AuctionID);
-                        if (auction.EndTime < DateTime.Now)
+                       
+                        if (auction.EndTime > DateTime.Now)
                         {
                             _bidRepo.DeleteBid(bidID);
                             return "Bid deleted";

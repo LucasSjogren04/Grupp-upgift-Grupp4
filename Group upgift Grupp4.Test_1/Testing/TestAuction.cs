@@ -17,12 +17,12 @@ using static System.Data.Entity.Infrastructure.Design.Executor;
 
 namespace Group_upgift_Grupp4.Test_1.Controller
 {
-    public class AuctionControllerTest : ControllerBase
+    public class TestAuction : ControllerBase
     {
         private readonly IAuctionServices _auctionServices;
         private readonly IAuctionRepo _auctionRepo;
 
-        public AuctionControllerTest()
+        public TestAuction()
         {
             _auctionServices = A.Fake<IAuctionServices>();
         }
