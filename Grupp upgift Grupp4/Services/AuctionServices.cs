@@ -67,7 +67,7 @@ namespace Grupp_upgift_Grupp4.Services
                     }
                     return result;
                 }
-                if(bidsOnAuction.Count != 0 || searchedForAuction.EndTime < DateTime.Now)
+                if(bidsOnAuction.Count != 0 && searchedForAuction.EndTime < DateTime.Now)
                 {
                     Bid maxBid = bidsOnAuction.OrderByDescending(obj => obj.BidAmount).FirstOrDefault();
                     result += ("Highest bid on auction: \n" + "Amount: " + maxBid.BidAmount + "\n"+
