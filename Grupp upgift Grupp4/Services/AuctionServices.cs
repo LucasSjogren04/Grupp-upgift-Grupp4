@@ -74,6 +74,7 @@ namespace Grupp_upgift_Grupp4.Services
                        "UserID: " + maxBid.UserID);
                     return result;
                 }
+                return result;
             }
             return "That auction doesn't exist";
 
